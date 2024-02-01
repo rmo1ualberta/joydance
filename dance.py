@@ -5,6 +5,7 @@ import platform
 import re
 import socket
 import time
+import os
 from configparser import ConfigParser
 from enum import Enum
 
@@ -334,14 +335,19 @@ app['joydance_connections'] = {}
 app['joycons_info'] = {}
 
 app.on_startup.append(on_startup)
+
+
+parent_folder_path = os.path.dirname(os.path.abspath(__file__))
+
 app.add_routes([
     web.get('/', html_handler),
     web.get('/favicon.png', favicon_handler),
     web.get('/ws', websocket_handler),
+
     # NOTE: Workaround for Windows. Change C:\joydance-0.5.2 to your joydance directory.
-    web.static('/static', 'C:\joydance-0.5.2\static'),
-    web.static('/static/css', 'C:\joydance-0.5.2\static\css'),
-    web.static('/static/js', 'C:\joydance-0.5.2\static\js'),
+    web.static('/static', f'{parent_folder_path}\static'),
+    web.static('/static/css', f'{parent_folder_path}\static\css'),
+    web.static('/static/js', f'{parent_folder_path}\static\js'),
 ])
 
 web.run_app(app, port=32623)
