@@ -338,8 +338,10 @@ app.add_routes([
     web.get('/', html_handler),
     web.get('/favicon.png', favicon_handler),
     web.get('/ws', websocket_handler),
-    web.static('/css', 'static/css'),
-    web.static('/js', 'static/js'),
+    # NOTE: Workaround for Windows. Change C:\joydance-0.5.2 to your joydance directory.
+    web.static('/static', 'C:\joydance-0.5.2\static'),
+    web.static('/static/css', 'C:\joydance-0.5.2\static\css'),
+    web.static('/static/js', 'C:\joydance-0.5.2\static\js'),
 ])
 
 web.run_app(app, port=32623)
